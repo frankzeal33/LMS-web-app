@@ -2,6 +2,8 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { initialSignInFormData, initialSignUpFormData } from "@/config";
 import { checkAuthService, loginService, registerService } from "@/services";
 import { createContext, useEffect, useState } from "react";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const AuthContext = createContext(null);
 
@@ -17,6 +19,11 @@ export default function AuthProvider({ children }) {
   async function handleRegisterUser(event) {
     event.preventDefault();
     const data = await registerService(signUpFormData);
+    if(data.success){
+      toast.success("Registration Successful!")
+    }else{
+      toast.error("An Error Occurred!")
+    }
   }
 
   async function handleLoginUser(event) {
@@ -33,11 +40,13 @@ export default function AuthProvider({ children }) {
         authenticate: true,
         user: data.data.user,
       });
+      toast.success("Login Successful!")
     } else {
       setAuth({
         authenticate: false,
         user: null,
       });
+      toast.error("An Error Occurred!")
     }
   }
 
@@ -97,6 +106,7 @@ export default function AuthProvider({ children }) {
         resetCredentials,
       }}
     >
+      <ToastContainer/>
       {loading ? <Skeleton /> : children}
     </AuthContext.Provider>
   );
