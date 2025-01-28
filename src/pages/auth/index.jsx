@@ -56,7 +56,7 @@ function AuthPage() {
           <span className="font-extrabold text-xl">ZEAL LMS</span>
         </Link>
       </header>
-      <div className="flex items-center justify-center min-h-screen bg-background p-3">
+      <div className="flex items-center justify-center min-h-[70vh] bg-background p-3">
         <Tabs
           value={activeTab}
           defaultValue="signin"
