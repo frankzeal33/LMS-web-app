@@ -17,7 +17,7 @@ import {
   createPaymentService,
   fetchStudentViewCourseDetailsService,
 } from "@/services";
-import { CheckCircle, Globe, Lock, PlayCircle } from "lucide-react";
+import { CheckCircle, Globe, Loader, Lock, PlayCircle } from "lucide-react";
 import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 
@@ -40,6 +40,7 @@ function StudentViewCourseDetailsPage() {
   const navigate = useNavigate();
   const { id } = useParams();
   const location = useLocation();
+  const [loading, setLoading] = useState(false)
 
   const [currentLecture, setCurrentLecture] = useState(null);
 
@@ -77,6 +78,7 @@ function StudentViewCourseDetailsPage() {
   }
 
   async function handleCreatePayment() {
+    setLoading(true)
     const paymentPayload = {
       userId: auth?.user?._id,
       userName: auth?.user?.userName,
@@ -105,6 +107,7 @@ function StudentViewCourseDetailsPage() {
       );
       setApprovalUrl(response?.data?.approveUrl);
     }
+    setLoading(false)
   }
 
   useEffect(() => {
@@ -241,7 +244,7 @@ function StudentViewCourseDetailsPage() {
                 </span>
               </div>
               <Button onClick={handleCreatePayment} className="w-full">
-                Buy Now
+                {loading ? <Loader className="animate-spin" size={26}/> : "Buy Now"}
               </Button>
             </CardContent>
           </Card>
